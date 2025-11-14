@@ -1,76 +1,194 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>MovieDB</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Blinker — Futuristic Movie DB</title>
+  <style>
+    :root {
+      --bg: #0b0f1a;
+      --glass: rgba(17, 24, 42, 0.7);
+      --primary: #00e5ff;
+      --primary-ghost: rgba(0, 229, 255, 0.28);
+      --text: #e6edf7;
+      --text-dim: #a9b7d9;
+      --accent: #7cf8ff;
+      --warning: #ffcc00;
+      --border: rgba(255,255,255,0.08);
+      --radius: 14px;
+      --space: 16px;
+      --space-lg: 24px;
+      --space-xl: 32px;
+      --max-content: 1200px;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Roboto, Arial, sans-serif;
+      color: var(--text);
+      background: radial-gradient(1200px 600px at 10% 10%, #0e1430 0%, var(--bg) 40%, #070a12 100%);
+    }
+    .u-container { max-width: var(--max-content); margin: 0 auto; padding: 0 var(--space-lg); }
+
+    /* Header */
+    .site-header {
+      position: sticky; top: 0;
+      background: linear-gradient(180deg, rgba(8,12,20,0.88), rgba(8,12,20,0.72));
+      border-bottom: 1px solid var(--border);
+    }
+    .site-header__top {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: var(--space);
+    }
+    .brand { display: flex; align-items: center; gap: 10px; }
+    .brand__logo {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: radial-gradient(circle at 30% 30%, var(--accent), var(--primary));
+      box-shadow: 0 0 24px var(--primary-ghost);
+    }
+    .brand__name { font-weight: 700; font-size: 1.2rem; }
+
+    .search { display: flex; gap: 10px; flex: 1; margin: 0 20px; }
+    .search__input {
+      flex: 1; padding: 10px; border-radius: 8px;
+      border: 1px solid var(--border);
+      background: rgba(12,18,32,0.75); color: var(--text);
+    }
+    .search__btn {
+      padding: 10px 16px; border-radius: 8px;
+      background: var(--primary); color: #06151a; font-weight: 600;
+      border: none; cursor: pointer;
+    }
+
+    .site-header__nav {
+      display: flex; gap: 14px; padding: 10px var(--space-lg);
+      border-top: 1px solid var(--border);
+    }
+    .nav__link {
+      padding: 6px 12px; border-radius: 999px;
+      color: var(--text-dim);
+    }
+    .nav__link--active, .nav__link:hover {
+      color: var(--text); background: rgba(255,255,255,0.05);
+    }
+
+    /* Layout */
+    .layout {
+      display: grid; grid-template-columns: 240px 1fr; gap: var(--space-xl);
+      padding: var(--space-xl) 0;
+    }
+    @media (max-width: 768px) { .layout { grid-template-columns: 1fr; } }
+
+    .panel {
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--space-lg);
+    }
+
+    /* Filters */
+    .filters__title { font-weight: 700; margin-bottom: var(--space); }
+    .chip-list { display: flex; flex-wrap: wrap; gap: 10px; }
+    .chip {
+      padding: 6px 12px; border-radius: 999px;
+      border: 1px solid var(--border);
+      color: var(--text-dim); background: rgba(255,255,255,0.04);
+    }
+    .chip--active { color: var(--text); border-color: var(--primary); }
+
+    /* Movie grid */
+    .grid__header { display: flex; justify-content: space-between; margin-bottom: var(--space-lg); }
+    .cards {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: var(--space-lg);
+    }
+    .card {
+      background: rgba(17,24,42,0.7); border: 1px solid var(--border);
+      border-radius: var(--radius); overflow: hidden;
+    }
+    .card__poster {
+      aspect-ratio: 2/3; background: #1a243f; display: grid; place-items: center;
+      color: var(--text-dim);
+    }
+    .card__body { padding: 12px; }
+    .card__title { font-weight: 600; margin-bottom: 6px; }
+    .card__meta { font-size: 0.9rem; color: var(--text-dim); }
+
+    /* Footer */
+    .site-footer {
+      border-top: 1px solid var(--border);
+      padding: var(--space-xl) 0; text-align: center; color: var(--text-dim);
+    }
+  </style>
 </head>
 <body>
-<div class="container">
-  <!-- Header -->
-  <header class="header">
-    <h1 class="logo">🎬 MovieDB</h1>
-    <nav class="nav">
-      <a href="#">Movies</a>
-      <a href="#">TV Shows</a>
-      <a href="#">Top Rated</a>
+  <header class="site-header">
+    <div class="u-container site-header__top">
+      <div class="brand">
+        <div class="brand__logo"></div>
+        <div class="brand__name">Blinker</div>
+      </div>
+      <form class="search">
+        <input class="search__input" type="search" placeholder="Search titles, people, genres…" />
+        <button class="search__btn" type="button">Search</button>
+      </form>
+    </div>
+    <nav class="u-container site-header__nav">
+      <a class="nav__link nav__link--active" href="#">Home</a>
+      <a class="nav__link" href="#">Top Rated</a>
+      <a class="nav__link" href="#">Popular</a>
+      <a class="nav__link" href="#">Genres</a>
+      <a class="nav__link" href="#">Watchlist</a>
     </nav>
-
-    <!-- Search Form -->
-    <form id="searchForm" class="filters">
-      <input type="text" id="query" placeholder="Search movies…" required>
-      <select name="genre">
-        <option value="">All Genres</option>
-        <option value="Action">Action</option>
-        <option value="Drama">Drama</option>
-      </select>
-      <input type="number" name="yearMin" placeholder="Year from">
-      <input type="number" name="yearMax" placeholder="Year to">
-      <input type="range" name="ratingMin" min="0" max="10" step="0.1">
-      <button type="submit">Filter</button>
-    </form>
   </header>
 
-  <!-- Hero -->
-  <section class="hero">
-    <img src="assets/images/inception-banner.jpg" alt="Inception Banner" class="hero__image">
-    <div class="hero__info">
-      <h2>Inception (2010)</h2>
-      <p>Action • Sci-Fi • 2h 28m</p>
-      <button>Watch Trailer</button>
-    </div>
-  </section>
+  <main class="u-container layout">
+    <aside class="panel">
+      <div class="filters__title">Filter</div>
+      <div class="chip-list">
+        <div class="chip chip--active">All</div>
+        <div class="chip">Action</div>
+        <div class="chip">Drama</div>
+        <div class="chip">Sci‑Fi</div>
+        <div class="chip">Comedy</div>
+      </div>
+    </aside>
 
-  <!-- Movie Grid -->
-  <main class="main">
-    <h2>Popular Movies</h2>
-    <ul id="cards" class="cards">
-      <li class="cards__item">
+    <section class="panel">
+      <div class="grid__header">
+        <div>Trending now</div>
+        <div>Sort by: Popularity</div>
+      </div>
+      <div class="cards">
         <article class="card">
-          <img src="./inception_banner.jpg"" alt="Inception Poster" class="card__poster">
-          <h3 class="card__title">Inception</h3>
-          <p class="card__meta">2010 • 8.8/10</p>
+          <div class="card__poster">Poster</div>
+          <div class="card__body">
+            <div class="card__title">Neon Drift</div>
+            <div class="card__meta">2025 • Sci‑Fi • ★★★★☆</div>
+          </div>
         </article>
-      </li>
-      <li class="cards__item">
         <article class="card">
-          <img src="./digital-matrix-code-virtual-computer-system-banner-background-with-copy-space-made-with-generative-ai_155027-3520.avif" alt="The Matrix Poster" class="card__poster">
-          <h3 class="card__title">The Matrix</h3>
-          <p class="card__meta">1999 • 8.7/10</p>
+          <div class="card__poster">Poster</div>
+          <div class="card__body">
+            <div class="card__title">Glass Horizon</div>
+            <div class="card__meta">2024 • Drama • ★★★★☆</div>
+          </div>
         </article>
-      </li>
-    </ul>
+        <article class="card">
+          <div class="card__poster">Poster</div>
+          <div class="card__body">
+            <div class="card__title">Kinetic Edge</div>
+            <div class="card__meta">2022 • Action • ★★★★☆</div>
+          </div>
+        </article>
+      </div>
+    </section>
   </main>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <p>Data from OMDb • © 2025 MovieDB</p>
+  <footer class="site-footer">
+    © 2025 Blinker — A futuristic movie database UI
   </footer>
-</div>
-
-<!-- Only one script tag, at the bottom -->
-<script src="app.js" type="module"></script>
 </body>
 </html>
 
