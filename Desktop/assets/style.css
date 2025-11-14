@@ -59,6 +59,21 @@ body {
 .btn-contact:hover {
   background-color: #e6c200;
 }
+.search-btn {
+  width: 60px !important;
+  height: 60px !important;
+  background-color: #6030b1; /* purple brand color */
+  color: white;
+  border: none;
+  border-radius: 50%; /* makes it circular */
+}
+
+.search-btn svg {
+  width: 24px;
+  height: 24px;
+}
+
+
 
 /* Hero Section */
 #landing-page {
