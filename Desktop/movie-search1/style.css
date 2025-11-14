@@ -37,6 +37,60 @@
   border-radius: 6px;
   box-shadow: 0 0 15px rgba(255,0,255,0.6);
 }
+/*
+cards
+*/
 
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 24px;
+}
 
+.card {
+  background: rgba(17,24,42,0.7);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 40px rgba(0,229,255,0.12);
+}
+
+.card__poster {
+  aspect-ratio: 2/3;         /* keeps posters same proportion */
+  overflow: hidden;
+  border-radius: 12px;
+  background: #1a243f;       /* fallback background */
+}
+
+.card__poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;         /* fills space without stretching */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 12px;
+}
+
+.card__poster img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(0,229,255,0.4);
+}
+
+.card__body {
+  padding: 12px;
+}
+
+.card__title {
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.card__meta {
+  font-size: 0.9rem;
+  color: #a9b7d9;
+}
 
