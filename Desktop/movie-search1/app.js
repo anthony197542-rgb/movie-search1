@@ -5,7 +5,7 @@ const modalBody = document.getElementById('modalBody');
 const closeBtn = document.querySelector('.close');
 
 // ✅ Your OMDb API key
-const API_KEY = "69049292-f4df-4f20-9c02-dce257e19ade";
+const API_KEY = "c9f7240a";
 
 async function fetchMovies(query) {
   if (!query) {
