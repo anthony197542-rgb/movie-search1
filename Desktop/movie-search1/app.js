@@ -1,4 +1,4 @@
-const searchInput = document.getElementById('search');
+const searchInput = document.getElementById("searchBar");
 const movieGrid = document.getElementById('movieGrid');
 const modal = document.getElementById('movieModal');
 const modalBody = document.getElementById('modalBody');
@@ -46,7 +46,7 @@ async function fetchMovieDetails(id) {
 }
 
 // Close modal
-closeBtn.onclick = () => modal.style.display = "none";
+
 window.onclick = (event) => { if (event.target === modal) modal.style.display = "none"; };
 
 // Listen for typing in search bar

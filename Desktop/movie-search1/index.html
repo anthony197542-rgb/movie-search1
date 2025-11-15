@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Blinker — Futuristic Movie DB</title>
+  <title>Futuristic Movie DB</title>
   <link rel="stylesheet" href="style.css">
   <script defer src="app.js"></script>
 </head>
@@ -63,6 +63,9 @@
           <div class="card__body">
             <div class="card__title">Neon Drift</div>
             <div class="card__meta">2025 • Sci‑Fi • ★★★★☆</div>
+            <button class="btn-trailer" 
+                    data-trailer-id="dQw4w9WgXcQ" 
+                    data-title="Neon Drift">Watch Trailer</button>
           </div>
         </article>
 
@@ -74,6 +77,9 @@
           <div class="card__body">
             <div class="card__title">Fast and Furious</div>
             <div class="card__meta">2001 • Action • ★★★★☆</div>
+            <button class="btn-trailer" 
+                    data-trailer-id="2TAOizOnNPo" 
+                    data-title="Fast and Furious">Watch Trailer</button>
           </div>
         </article>
 
@@ -85,6 +91,9 @@
           <div class="card__body">
             <div class="card__title">Inception</div>
             <div class="card__meta">2024 • Drama • ★★★★☆</div>
+            <button class="btn-trailer" 
+                    data-trailer-id="YoHD9XEInc0" 
+                    data-title="Inception">Watch Trailer</button>
           </div>
         </article>
 
@@ -96,6 +105,9 @@
           <div class="card__body">
             <div class="card__title">Troon</div>
             <div class="card__meta">2022 • Action • ★★★★☆</div>
+            <button class="btn-trailer" 
+                    data-trailer-id="L9szn1QQfas" 
+                    data-title="Troon">Watch Trailer</button>
           </div>
         </article>
 
@@ -107,10 +119,13 @@
           <div class="card__body">
             <div class="card__title">Blade Trilogy</div>
             <div class="card__meta">2004 • Action • ★★★★☆</div>
+            <button class="btn-trailer" 
+                    data-trailer-id="N0pJYTwZ1-U" 
+                    data-title="Blade Trilogy">Watch Trailer</button>
           </div>
         </article>
 
-   
+        <!-- Warrior -->
         <article class="card" data-genre="Sci‑Fi" data-year="2021" data-rating="8.1">
           <div class="card__poster">
             <img src="./Warrior.jpg" alt="Warrior Poster">
@@ -118,8 +133,13 @@
           <div class="card__body">
             <div class="card__title">Warrior</div>
             <div class="card__meta">2021 • Action-Drama ★★☆</div>
+            <button class="btn-trailer" 
+                    data-trailer-id="I3YjF2fZkU4" 
+                    data-title="Warrior">Watch Trailer</button>
           </div>
         </article>
+
+        <!-- Veil -->
         <article class="card" data-genre="Sci‑Fi" data-year="2021" data-rating="8.1">
           <div class="card__poster">
             <img src="./The Veil.jpg" alt="The Veil Poster">
@@ -127,8 +147,13 @@
           <div class="card__body">
             <div class="card__title">Veil</div>
             <div class="card__meta">2021 • Action-Drama ★★☆</div>
+            <button class="btn-trailer" 
+                    data-trailer-id="abcd1234" 
+                    data-title="Veil">Watch Trailer</button>
           </div>
         </article>
+
+        <!-- Matrix -->
         <article class="card" data-genre="Sci‑Fi" data-year="2021" data-rating="8.1">
           <div class="card__poster">
             <img src="./Matrix.avif" alt="The Matrix Poster">
@@ -136,10 +161,34 @@
           <div class="card__body">
             <div class="card__title">Matrix</div>
             <div class="card__meta">2021 • Action-Drama ★★☆</div>
+            <button class="btn-trailer" 
+                    data-trailer-id="m8e-FF8MsqU" 
+                    data-title="Matrix">Watch Trailer</button>
           </div>
         </article>
       </div>
     </section>
   </main>
+
+  <!-- Trailer Modal -->
+  <div id="trailerModal" class="modal" aria-hidden="true">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div id="trailerTitle">Trailer</div>
+        <button class="modal-close" id="trailerClose" aria-label="Close">✕</button>
+      </div>
+      <div class="trailer-wrap">
+        <iframe
+          id="trailerFrame"
+          class="trailer-frame"
+          src=""
+          title="Movie trailer"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
+
