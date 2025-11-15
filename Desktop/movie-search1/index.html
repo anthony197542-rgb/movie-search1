@@ -4,131 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Blinker — Futuristic Movie DB</title>
-  <style>
-    :root {
-      --bg: #0b0f1a;
-      --glass: rgba(17, 24, 42, 0.7);
-      --primary: #00e5ff;
-      --primary-ghost: rgba(0, 229, 255, 0.28);
-      --text: #e6edf7;
-      --text-dim: #a9b7d9;
-      --accent: #7cf8ff;
-      --warning: #ffcc00;
-      --border: rgba(255,255,255,0.08);
-      --radius: 14px;
-      --space: 16px;
-      --space-lg: 24px;
-      --space-xl: 32px;
-      --max-content: 1200px;
-    }
-
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: "Segoe UI", Roboto, Arial, sans-serif;
-      color: var(--text);
-      background: radial-gradient(1200px 600px at 10% 10%, #0e1430 0%, var(--bg) 40%, #070a12 100%);
-    }
-    .u-container { max-width: var(--max-content); margin: 0 auto; padding: 0 var(--space-lg); }
-
-    /* Header */
-    .site-header {
-      position: sticky; top: 0;
-      background: linear-gradient(180deg, rgba(8,12,20,0.88), rgba(8,12,20,0.72));
-      border-bottom: 1px solid var(--border);
-    }
-    .site-header__top {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: var(--space);
-    }
-    .brand { display: flex; align-items: center; gap: 10px; }
-    .brand__logo {
-      width: 40px; height: 40px; border-radius: 10px;
-      background: radial-gradient(circle at 30% 30%, var(--accent), var(--primary));
-      box-shadow: 0 0 24px var(--primary-ghost);
-    }
-    .brand__name { font-weight: 700; font-size: 1.2rem; }
-
-    .search { display: flex; gap: 10px; flex: 1; margin: 0 20px; }
-    .search__input {
-      flex: 1; padding: 10px; border-radius: 8px;
-      border: 1px solid var(--border);
-      background: rgba(12,18,32,0.75); color: var(--text);
-    }
-    .search__btn {
-      padding: 10px 16px; border-radius: 8px;
-      background: var(--primary); color: #06151a; font-weight: 600;
-      border: none; cursor: pointer;
-    }
-
-    .site-header__nav {
-      display: flex; gap: 14px; padding: 10px var(--space-lg);
-      border-top: 1px solid var(--border);
-    }
-    .nav__link {
-      padding: 6px 12px; border-radius: 999px;
-      color: var(--text-dim);
-    }
-    .nav__link--active, .nav__link:hover {
-      color: var(--text); background: rgba(255,255,255,0.05);
-    }
-
-    /* Layout */
-    .layout {
-      display: grid; grid-template-columns: 240px 1fr; gap: var(--space-xl);
-      padding: var(--space-xl) 0;
-    }
-    @media (max-width: 768px) { .layout { grid-template-columns: 1fr; } }
-
-    .panel {
-      background: var(--glass);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: var(--space-lg);
-    }
-
-    /* Filters */
-    .filters__title { font-weight: 700; margin-bottom: var(--space); }
-    .chip-list { display: flex; flex-wrap: wrap; gap: 10px; }
-    .chip {
-      padding: 6px 12px; border-radius: 999px;
-      border: 1px solid var(--border);
-      color: var(--text-dim); background: rgba(255,255,255,0.04);
-      cursor: pointer;
-    }
-    .chip--active { color: var(--text); border-color: var(--primary); }
-
-    /* Movie grid */
-    .grid__header { display: flex; justify-content: space-between; margin-bottom: var(--space-lg); }
-    .cards {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: 24px;
-    }
-    .card {
-      background: rgba(17,24,42,0.7); border: 1px solid var(--border);
-      border-radius: var(--radius); overflow: hidden;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 20px 40px rgba(0,229,255,0.12);
-    }
-    .card__poster img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 8px;
-    }
-    .card__body { padding: 12px; }
-    .card__title { font-weight: 600; margin-bottom: 6px; }
-    .card__meta { font-size: 0.9rem; color: var(--text-dim); }
-
-    /* Footer */
-    .site-footer {
-      border-top: 1px solid var(--border);
-      padding: var(--space-xl) 0; text-align: center; color: var(--text-dim);
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="app.js"></script>
 </head>
 <body>
   <header class="site-header">
@@ -138,7 +15,7 @@
         <div class="brand__name">Blinker</div>
       </div>
       <form class="search">
-        <input class="search__input" id="searchInput" type="search" placeholder="Search titles, people, genres…" />
+        <input type="text" id="searchBar" placeholder="Search titles, people, genres…">
         <button class="search__btn" type="button" id="searchBtn">Search</button>
       </form>
     </div>
@@ -176,10 +53,12 @@
           </select>
         </div>
       </div>
+
       <div class="cards" id="cards">
+        <!-- Neon Drift -->
         <article class="card" data-genre="Sci‑Fi" data-year="2025" data-rating="8.6">
           <div class="card__poster">
-            <img src="./unnamed.jpg" alt="Neon Drift Poster">
+            <img src="./Neon drift.jpg" alt="Neon Drift Poster">
           </div>
           <div class="card__body">
             <div class="card__title">Neon Drift</div>
@@ -187,43 +66,80 @@
           </div>
         </article>
 
+        <!-- Fast and Furious -->
+        <article class="card" data-genre="Action" data-year="2001" data-rating="8.0">
+          <div class="card__poster">
+            <img src="./fast and furiuos.jpg" alt="Fast and Furious Poster">
+          </div>
+          <div class="card__body">
+            <div class="card__title">Fast and Furious</div>
+            <div class="card__meta">2001 • Action • ★★★★☆</div>
+          </div>
+        </article>
+
+        <!-- Inception -->
         <article class="card" data-genre="Drama" data-year="2024" data-rating="7.9">
           <div class="card__poster">
-            <img  src="./ss_c4f3bb972c8e44058d108a52dd1b2c8f751c8808.1920x1080.jpg" alt="Glass Horizon Poster">
-    </div>
-    <div class="card__body">
-      <div class="card__title">Glass Horizon</div>
-      <div class="card__meta">2024 • Drama • ★★★★☆</div>
-    </div>
-  </article>
+            <img src="./Inception.jpg" alt="Inception Poster">
+          </div>
+          <div class="card__body">
+            <div class="card__title">Inception</div>
+            <div class="card__meta">2024 • Drama • ★★★★☆</div>
+          </div>
+        </article>
 
-  <article class="card" data-genre="Action" data-year="2022" data-rating="7.5">
-    <div class="card__poster">
-      <img src="./tron--ares-official-movie-poster-92922.jpg" alt="Troon">
-    </div>
-    <div class="card__body">
-      <div class="card__title">Troon</div>
-      <div class="card__meta">2022 • Action • ★★★★☆</div>
-    </div>
-  </article>
+        <!-- Troon -->
+        <article class="card" data-genre="Action" data-year="2022" data-rating="7.5">
+          <div class="card__poster">
+            <img src="./Tron.jpg" alt="Troon Poster">
+          </div>
+          <div class="card__body">
+            <div class="card__title">Troon</div>
+            <div class="card__meta">2022 • Action • ★★★★☆</div>
+          </div>
+        </article>
 
-  <article class="card" data-genre="Action" data-year="2004" data-rating="7.2">
-    <div class="card__poster">
-      <img src="./Blade_Trilogy.jpg" alt="">
-    </div>
-    <div class="card__body">
-      <div class="card__title">Laughing Stars</div>
-      <div class="card__meta">2023 • Comedy • ★★★★☆</div>
-    </div>
-  </article>
+        <!-- Blade Trilogy -->
+        <article class="card" data-genre="Action" data-year="2004" data-rating="7.2">
+          <div class="card__poster">
+            <img src="./Blade_Trilogy.jpg" alt="Blade Trilogy Poster">
+          </div>
+          <div class="card__body">
+            <div class="card__title">Blade Trilogy</div>
+            <div class="card__meta">2004 • Action • ★★★★☆</div>
+          </div>
+        </article>
 
-  <article class="card" data-genre="Sci‑Fi" data-year="2021" data-rating="8.1">
-    <div class="card__poster">
-      <img src="./f88959.jpg" alt="Cosmic Veil Poster">
-    </div>
-    <div class="card__body">
-      <div class="card__title">Cosmic Veil</div>
-      <div class="card__meta">2021 • Sci‑Fi • ★★★★☆</div>
-    </div>
-  </article>
-
+   
+        <article class="card" data-genre="Sci‑Fi" data-year="2021" data-rating="8.1">
+          <div class="card__poster">
+            <img src="./Warrior.jpg" alt="Warrior Poster">
+          </div>
+          <div class="card__body">
+            <div class="card__title">Warrior</div>
+            <div class="card__meta">2021 • Action-Drama ★★☆</div>
+          </div>
+        </article>
+        <article class="card" data-genre="Sci‑Fi" data-year="2021" data-rating="8.1">
+          <div class="card__poster">
+            <img src="./The Veil.jpg" alt="The Veil Poster">
+          </div>
+          <div class="card__body">
+            <div class="card__title">Veil</div>
+            <div class="card__meta">2021 • Action-Drama ★★☆</div>
+          </div>
+        </article>
+        <article class="card" data-genre="Sci‑Fi" data-year="2021" data-rating="8.1">
+          <div class="card__poster">
+            <img src="./Matrix.avif" alt="The Matrix Poster">
+          </div>
+          <div class="card__body">
+            <div class="card__title">Matrix</div>
+            <div class="card__meta">2021 • Action-Drama ★★☆</div>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
