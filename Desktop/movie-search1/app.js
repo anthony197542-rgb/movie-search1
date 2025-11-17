@@ -1,12 +1,12 @@
 // movieGallery.js
 
-const API_KEY = "your_api_key_here"; // Replace with your OMDb/TMDb key
+const API_KEY = " c9f7240a"; // Replace with your OMDb/TMDb key
 const searchInput = document.getElementById("searchInput");
 const gallery = document.getElementById("gallery");
 
 // Fetch movies from OMDb based on query
 async function searchMovies(query) {
-  const url = `https://www.omdbapi.com/?apikey=${API_KEY}&s=${encodeURIComponent(query)}`;
+  const url = `https://www.omdbapi.com/?apikey=aspx?VERIFYKEY=69049292-f4df-4f20-9c02-dce257e19ade
   try {
     const response = await fetch(url);
     const data = await response.json();
