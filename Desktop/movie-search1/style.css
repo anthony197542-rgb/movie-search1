@@ -5,12 +5,60 @@
   padding: 0;
 }
 
+/* Brick wall background */
 body {
-  background: #0a0a0f;
-  color: #e0f7ff;
-  font-family: 'Orbitron', sans-serif;
-  line-height: 1.5;
+  background: url("./brickwall.webp") repeat center center fixed;
+  background-size: cover;
+  font-family: 'Orbitron', sans-serif; /* Futuristic font */
+  color: #fff;
 }
+html, body {
+  height: 100%;
+}
+
+/* Gallery grid */
+#movie-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  padding: 2rem;
+}
+
+/* Movie cards styled like posters */
+.movie-card {
+  background: rgba(0, 0, 0, 0.6); /* semi-transparent overlay */
+  border: 3px solid #ff00ff; /* neon pink spray outline */
+  border-radius: 12px;
+  box-shadow: 0 0 15px #00ffff, 0 0 25px #ff00ff; /* neon glow */
+  text-align: center;
+  transform: rotate(-2deg); /* slight tilt for graffiti vibe */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.movie-card:hover {
+  transform: rotate(0deg) scale(1.05);
+  box-shadow: 0 0 25px #00ffff, 0 0 35px #ff00ff;
+}
+
+/* Poster images */
+.movie-card img {
+  width: 100%;
+  height: auto;
+  border-bottom: 2px dashed #00ffff; /* spray-paint divider */
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Rubik+Mono+One&display=swap');
+
+.movie-card h3 {
+  font-family: 'Rubik Mono One', sans-serif;
+}
+
+
+.movie-card p {
+  font-size: 0.9rem;
+  color: #ccc;
+}
+
 
 /* === Header === */
 .site-header {

@@ -1,114 +1,109 @@
-// === API Key (OMDb) ===
-const API_KEY = "69049292-f4df-4f20-9c02-dce257e19ade";
+// === OMDb API Setup ===
+const apiKey = " c9f7240a"; // Replace with your OMDb key
 
-// === DOM Elements ===
-const searchInput = document.getElementById("searchBar");
-const searchBtn = document.getElementById("searchBtn");
-const movieGrid = document.getElementById("cards");
-const modal = document.getElementById("trailerModal");
-const frame = document.getElementById("trailerFrame");
-const closeBtn = document.getElementById("trailerClose");
-
-// === Static Trailer Map (YouTube IDs) ===
-// Add more titles + IDs as needed
-const TRAILER_MAP = {
-  "Neon Drift": "dQw4w9WgXcQ",
-  "Fast and Furious": "2TAOizOnNPo",
-  "Inception": "YoHD9XEInc0",
-  "Tron": "L9szn1QQfas",
-  "Blade Trilogy": "N0pJYTwZ1-U",
-  "Warrior": "I3YjF2fZkU4",
-  "The Veil": "abcd1234",
-  "Matrix": "m8e-FF8MsqU"
-};
-
-// === Open Trailer ===
-function openTrailer({ title, youtubeId }) {
-  document.getElementById("trailerTitle").textContent = `${title} — Trailer`;
-  frame.src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1`;
-  modal.classList.add("open");
-  modal.setAttribute("aria-hidden", "false");
-  document.body.style.overflow = "hidden"; // lock scroll
-}
-
-// === Close Trailer ===
-function closeTrailer() {
-  modal.classList.remove("open");
-  modal.setAttribute("aria-hidden", "true");
-  frame.src = ""; // stop playback
-  document.body.style.overflow = ""; // restore scroll
-}
-
-// === Event Listeners ===
-closeBtn.addEventListener("click", closeTrailer);
-modal.addEventListener("click", (e) => {
-  if (e.target === modal) closeTrailer(); // click outside closes modal
-});
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") closeTrailer(); // Esc key closes modal
-});
-
-// Listen for trailer button clicks
-document.addEventListener("click", (e) => {
-  const btn = e.target.closest(".btn-trailer");
-  if (!btn) return;
-  const title = btn.getAttribute("data-title") || "Trailer";
-  const youtubeId = TRAILER_MAP[title] || "dQw4w9WgXcQ"; // fallback
-  openTrailer({ title, youtubeId });
-});
-
-// === Fetch Movies from OMDb ===
-async function searchMovies(query) {
+// === Search Movies (basic info) ===
+async function getMoviesFromOMDb(searchTerm) {
+  const endpoint = `https://www.omdbapi.com/?s=${encodeURIComponent(searchTerm)}&apikey=${apiKey}`;
   try {
-    const res = await fetch(
-      `https://www.omdbapi.com/?apikey=${API_KEY}&s=${encodeURIComponent(query)}`
-    );
-    const data = await res.json();
+    const response = await fetch(endpoint);
+    const data = await response.json();
+
     if (data.Response === "True") {
-      renderMovies(data.Search);
+      console.log("🎬 OMDb Search Results:", data.Search);
+      displayMovies(data.Search);
+      return data.Search;
     } else {
-      movieGrid.innerHTML = `<p>No results found for "${query}".</p>`;
+      console.warn("⚠️ OMDb Error:", data.Error);
+      return [];
     }
-  } catch (err) {
-    console.error("Error fetching movies:", err);
-    movieGrid.innerHTML = `<p>Something went wrong. Please try again.</p>`;
+  } catch (error) {
+    console.error("❌ Fetch Failed:", error);
+    return [];
   }
 }
 
-// === Render Movies into Cards ===
-function renderMovies(movies) {
-  movieGrid.innerHTML = movies
-    .map(
-      (movie) => `
-      <article class="card">
-        <div class="card__poster">
-          <img src="${movie.Poster !== "N/A" ? movie.Poster : "./placeholder.jpg"}" alt="${movie.Title} Poster">
-        </div>
-        <div class="card__body">
-          <div class="card__title">${movie.Title}</div>
-          <div class="card__meta">${movie.Year} • ${movie.Type}</div>
-          <button class="btn-trailer" 
-                  data-title="${movie.Title}">
-            Watch Trailer
-          </button>
-        </div>
-      </article>
-    `
-    )
-    .join("");
+// === Get Full Movie Details (by IMDb ID) ===
+async function getFullMovieDetails(imdbID) {
+  const url = `https://www.omdbapi.com/?i=${imdbID}&plot=full&apikey=${apiKey}`;
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (data.Response === "True") {
+      console.log("📖 Full Movie Details:", data);
+      return data;
+    } else {
+      console.warn("⚠️ OMDb Error:", data.Error);
+      return null;
+    }
+  } catch (error) {
+    console.error("❌ Fetch Failed:", error);
+    return null;
+  }
 }
 
-// === Search Button Click ===
-searchBtn.addEventListener("click", () => {
-  const query = searchInput.value.trim();
-  if (query) {
-    searchMovies(query);
-  }
-});
+// === Render Movies into Gallery ===
+function displayMovies(movies) {
+  const gallery = document.getElementById("movie-gallery");
+  gallery.innerHTML = "";
 
-// === Optional: Trigger search on Enter key ===
-searchInput.addEventListener("keydown", (e) => {
-  if (e.key === "Enter") {
-    searchMovies(searchInput.value.trim());
-  }
-});
+  movies.forEach(movie => {
+    const card = document.createElement("div");
+    card.classList.add("movie-card");
+
+    // Random tilt for graffiti vibe
+    const tilt = Math.floor(Math.random() * 9) - 4;
+    card.style.transform = `rotate(${tilt}deg)`;
+
+    card.innerHTML = `
+      <img src="${movie.Poster !== "N/A" ? movie.Poster : "placeholder.jpg"}" alt="${movie.Title}">
+      <h3>${movie.Title}</h3>
+      <p>${movie.Year}</p>
+      <button class="btn-trailer" data-id="${movie.imdbID}">Watch Trailer</button>
+    `;
+
+    gallery.appendChild(card);
+  });
+
+  // Attach trailer button listeners
+  document.querySelectorAll(".btn-trailer").forEach(btn => {
+    btn.addEventListener("click", async (e) => {
+      const imdbID = e.target.getAttribute("data-id");
+      const details = await getFullMovieDetails(imdbID);
+      if (details) {
+        openTrailerModal(details);
+      }
+    });
+  });
+}
+
+// === Trailer Modal Logic ===
+// === Trailer Modal Logic ===
+function openTrailerModal(details) {
+  const modal = document.querySelector(".modal");
+  const modalContent = modal.querySelector(".trailer-wrap");
+
+  // Embed a YouTube trailer search based on the movie title
+  modalContent.innerHTML = `
+    <iframe class="trailer-frame"
+      src="https://www.youtube.com/embed?listType=search&list=${encodeURIComponent(details.Title + " trailer")}"
+      allowfullscreen>
+    </iframe>
+    <div style="padding: 1rem; color: #e0f7ff;">
+      <h2>${details.Title} (${details.Year})</h2>
+      <p><strong>Genre:</strong> ${details.Genre}</p>
+      <p><strong>Director:</strong> ${details.Director}</p>
+      <p><strong>Plot:</strong> ${details.Plot}</p>
+    </div>
+  `;
+
+  // Show the modal
+  modal.classList.add("open");
+
+  // Close button logic
+  const closeBtn = modal.querySelector(".modal-close");
+  closeBtn.addEventListener("click", () => {
+    modal.classList.remove("open");
+    modalContent.innerHTML = ""; // clear trailer when closing
+  });
+}
