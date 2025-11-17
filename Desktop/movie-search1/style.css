@@ -1,6 +1,10 @@
+/* ==========================================================================
+   Futuristic Movie DB — Spray-Paint on Red Brick Wall Theme
+   Author: Anthony
+   ========================================================================== */
+
 :root {
   --bg: #0a0a0a;
-  --ink: #0d0d0d;
   --text: #e8e8e8;
   --muted: #bfbfbf;
 
@@ -12,7 +16,6 @@
   --chip-bg: rgba(255,255,255,0.08);
   --chip-active: #ff2d55;
 
-  --card-ink: #151515;
   --spray-soft: rgba(255,255,255,0.06);
   --spray-ink: rgba(0,0,0,0.35);
   --stencil-edge: rgba(0,0,0,0.5);
@@ -22,316 +25,120 @@
   --panel-border: rgba(255,255,255,0.06);
 
   /* Brick wall colors */
-  --brick-mortar: #3a3a3a;   /* dark grey mortar */
-  --brick-1: #8b2c2c;        /* deep brick red */
-  --brick-2: #a33d2d;        /* medium red */
-  --brick-3: #b84a3a;        /* lighter red/orange tone */
+  --brick-1: #8b2c2c;
+  --brick-2: #a33d2d;
+  --brick-3: #b84a3a;
+  --mortar: #d6d2cc;
+  --mortar-shadow: #b9b4ad;
+
+  /* Brick geometry */
+  --brick-h: 44px;
+  --brick-w: 96px;
+  --joint: 4px;
+
+  --brand-size: 28px;
 }
 
-
-/* ------------------------------
-   Reset
------------------------------- */
+/* Reset */
 *,
 *::before,
-*::after {
-  box-sizing: border-box;
-}
+*::after { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; color: var(--text); font-family: system-ui, sans-serif; }
 
-html, body {
-  height: 100%;
-}
-
-
-/* ------------------------------
-   Brick wall background (pure CSS)
-   - Subtle brick pattern using multiple gradients
------------------------------- */
+/* Brick wall background */
 body::before {
   content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -3;
+  position: fixed; inset: 0; z-index: -3;
   background:
-    linear-gradient(var(--brick-mortar) 2px, transparent 2px) 0 0/100% 38px,
-    linear-gradient(90deg, var(--brick-mortar) 2px, transparent 2px) 0 0/76px 38px,
-    linear-gradient(0deg, var(--brick-1), var(--brick-2)) 0 0/100% 100%;
-  background-blend-mode: multiply;
+    linear-gradient(var(--mortar) var(--joint), transparent var(--joint))
+      0 0 / 100% calc(var(--brick-h) + var(--joint)),
+    linear-gradient(90deg, var(--mortar) var(--joint), transparent var(--joint))
+      0 0 / calc(var(--brick-w) + var(--joint)) calc(var(--brick-h) + var(--joint)),
+    linear-gradient(90deg, var(--mortar) var(--joint), transparent var(--joint))
+      calc((var(--brick-w) + var(--joint)) / 2) calc(var(--brick-h) + var(--joint)) /
+      calc(var(--brick-w) + var(--joint)) calc(var(--brick-h) + var(--joint)),
+    linear-gradient(0deg, var(--brick-1), var(--brick-2), var(--brick-3)) 0 0 / 100% 100%;
+  background-blend-mode: normal, normal, normal, multiply;
+  filter: contrast(1.03) brightness(0.98);
 }
-
-
-/* faint grime + vignette for depth */
 body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -2;
+  content: ""; position: fixed; inset: 0; z-index: -2;
   background:
-    radial-gradient(1200px 600px at 10% 20%, rgba(0,0,0,0.35), transparent 65%),
-    radial-gradient(1200px 600px at 90% 80%, rgba(0,0,0,0.35), transparent 65%);
-  mix-blend-mode: multiply;
+    linear-gradient(var(--mortar-shadow) var(--joint), transparent var(--joint))
+      0 0 / 100% calc(var(--brick-h) + var(--joint)),
+    linear-gradient(90deg, var(--mortar-shadow) var(--joint), transparent var(--joint))
+      0 0 / calc(var(--brick-w) + var(--joint)) calc(var(--brick-h) + var(--joint));
+  mix-blend-mode: multiply; opacity: 0.15;
 }
-
-/* subtle wall texture grain */
 .wall-noise {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
+  position: fixed; inset: 0; z-index: -1; pointer-events: none;
   background:
-    repeating-linear-gradient(0deg, rgba(255,255,255,0.015) 0 2px, transparent 2px 4px),
-    repeating-linear-gradient(90deg, rgba(0,0,0,0.03) 0 2px, transparent 2px 4px);
-  opacity: 0.5;
+    radial-gradient(900px 500px at 12% 18%, rgba(0,0,0,0.22), transparent 65%),
+    radial-gradient(900px 500px at 88% 82%, rgba(0,0,0,0.22), transparent 65%),
+    repeating-linear-gradient(45deg, rgba(0,0,0,0.04) 0 2px, transparent 2px 6px);
+  opacity: 0.6;
 }
 
-/* ------------------------------
-   Utilities & layout
------------------------------- */
-.u-container {
-  width: min(1200px, 92vw);
-  margin: 0 auto;
-}
+/* Layout */
+.u-container { width: min(1200px, 92vw); margin: 0 auto; }
+.layout { display: grid; grid-template-columns: 260px 1fr; gap: var(--grid-gap); padding: 24px 0 48px; }
+.panel { background: var(--panel-bg); border: 1px solid var(--panel-border); backdrop-filter: blur(2px); border-radius: 12px; overflow: hidden; }
 
-.layout {
-  display: grid;
-  grid-template-columns: 260px 1fr;
-  gap: var(--grid-gap);
-  padding: 24px 0 48px;
-}
+/* Header */
+.site-header { position: sticky; top: 0; z-index: 10; backdrop-filter: blur(4px); background: linear-gradient(180deg, rgba(0,0,0,0.7), rgba(0,0,0,0.35)); border-bottom: 1px solid var(--panel-border); }
+.site-header__top { display: flex; align-items: center; gap: 16px; padding: 16px 0; }
+.brand { display: flex; align-items: center; gap: 10px; }
+.brand__logo { width: 28px; height: 28px; background: radial-gradient(10px 10px at 50% 50%, var(--accent-2), transparent 70%), radial-gradient(12px 12px at 60% 40%, var(--accent-1), transparent 70%); border-radius: 6px; box-shadow: 0 0 12px var(--accent-2), 0 0 18px var(--accent-1) inset; }
+.brand__name { font-size: var(--brand-size); font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; color: var(--text); text-shadow: 0 0 6px var(--accent-2), 0 0 12px var(--accent-1); }
+.site-header__nav { display: flex; gap: 18px; padding: 10px 0 14px; }
+.nav__link { color: var(--muted); text-decoration: none; font-weight: 600; letter-spacing: 0.4px; padding: 10px 12px; border-radius: 8px; transition: color .2s ease, background .2s ease, box-shadow .2s ease; }
+.nav__link:hover { color: var(--text); background: rgba(255,255,255,0.06); box-shadow: 0 0 10px rgba(255,255,255,0.06); }
+.nav__link--active { color: var(--text); background: rgba(255,255,255,0.1); box-shadow: 0 0 10px var(--accent-2), inset 0 0 12px rgba(255,255,255,0.08); }
 
-/* Panels with transparent glassy look */
-.panel {
-  background: var(--panel-bg);
-  border: 1px solid var(--panel-border);
-  backdrop-filter: blur(2px);
-  border-radius: 12px;
-  overflow: hidden;
-}
+/* Search */
+#search-input { flex: 1; max-width: 520px; padding: 12px 14px; border: 1px solid var(--panel-border); border-radius: 10px; background: rgba(0,0,0,0.45); color: var(--text); outline: none; transition: border-color .2s ease, box-shadow .2s ease; }
+#search-input::placeholder { color: #9a9a9a; }
+#search-input:focus { border-color: var(--accent-2); box-shadow: 0 0 14px rgba(0,229,255,0.25); }
 
-/* ------------------------------
-   Header
------------------------------- */
-.site-header {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  backdrop-filter: blur(4px);
-  background: linear-gradient(180deg, rgba(0,0,0,0.7), rgba(0,0,0,0.35));
-  border-bottom: 1px solid var(--panel-border);
+/* Filters */
+.filters__title { padding: 14px 16px; font-weight: 700; letter-spacing: 0.6px; border-bottom: 1px solid var(--panel-border); background: rgba(255,255,255,0.05); }
+.chip-list { display: flex; flex-wrap: wrap; gap: 10px; padding: 14px; }
+.chip { padding: 8px 12px; border-radius: 999px; background: var(--chip-bg); color: var(--text); border: 1px solid var(--panel-border); cursor: pointer; font-weight: 600; letter-spacing: 0.4px; transition: transform .12s ease, box-shadow .2s ease, background .2s ease, border-color .2s ease; }
+.chip:hover { transform: translateY(-1px); box-shadow: 0 0 10px rgba(255,255,255,0.06); }
+.chip--active { background: linear-gradient(90deg, var(--chip-active), #ff7aa0); border-color: rgba(255,255,255,0.25);
 }
-
-.site-header__top {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 16px 0;
-}
-
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.brand__logo {
-  width: 28px;
-  height: 28px;
-  background:
-    radial-gradient(10px 10px at 50% 50%, var(--accent-2), transparent 70%),
-    radial-gradient(12px 12px at 60% 40%, var(--accent-1), transparent 70%);
-  border-radius: 6px;
-  box-shadow:
-    0 0 12px var(--accent-2),
-    0 0 18px var(--accent-1) inset;
-}
-
-.brand__name {
-  font-size: var(--brand-size);
-  font-weight: 700;
-  letter-spacing: 0.8px;
-  text-transform: uppercase;
-  color: var(--text);
-  text-shadow:
-    0 0 6px var(--accent-2),
-    0 0 12px var(--accent-1);
-}
-
-/* Navigation */
-.site-header__nav {
-  display: flex;
-  gap: 18px;
-  padding: 10px 0 14px;
-}
-
-.nav__link {
-  color: var(--muted);
-  text-decoration: none;
-  font-weight: 600;
-  letter-spacing: 0.4px;
-  padding: 10px 12px;
-  border-radius: 8px;
-  transition: color .2s ease, background .2s ease, box-shadow .2s ease;
-}
-
-.nav__link:hover {
-  color: var(--text);
-  background: rgba(255,255,255,0.06);
-  box-shadow: 0 0 10px rgba(255,255,255,0.06);
-}
-
-.nav__link--active {
-  color: var(--text);
-  background: rgba(255,255,255,0.1);
-  box-shadow:
-    0 0 10px var(--accent-2),
-    inset 0 0 12px rgba(255,255,255,0.08);
-}
-
-/* ------------------------------
-   Search bar
------------------------------- */
-#search-input {
-  flex: 1;
-  max-width: 520px;
-  padding: 12px 14px;
-  border: 1px solid var(--panel-border);
-  border-radius: 10px;
-  background: rgba(0,0,0,0.45);
-  color: var(--text);
-  outline: none;
-  transition: border-color .2s ease, box-shadow .2s ease;
-}
-
-#search-input::placeholder {
-  color: #9a9a9a;
-}
-
-#search-input:focus {
-  border-color: var(--accent-2);
-  box-shadow: 0 0 14px rgba(0,229,255,0.25);
-}
-
-/* ------------------------------
-   Filters (chips)
------------------------------- */
-.filters__title {
-  padding: 14px 16px;
-  font-weight: 700;
-  letter-spacing: 0.6px;
-  border-bottom: 1px solid var(--panel-border);
-  background: rgba(255,255,255,0.05);
-}
-
-.chip-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  padding: 14px;
-}
-
-.chip {
-  padding: 8px 12px;
-  border-radius: 999px;
-  background: var(--chip-bg);
-  color: var(--text);
-  border: 1px solid var(--panel-border);
-  cursor: pointer;
-  font-weight: 600;
-  letter-spacing: 0.4px;
-  transition: transform .12s ease, box-shadow .2s ease, background .2s ease, border-color .2s ease;
-}
-
-.chip:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 0 10px rgba(255,255,255,0.06);
-}
-
-.chip--active {
-  background: linear-gradient(90deg, var(--chip-active), #ff7aa0);
-  border-color: rgba(255,255,255,0.25);
-  color: #0b0b0b;
-  text-shadow: 0 0 6px rgba(255,255,255,0.35);
-  box-shadow:
-    0 0 18px rgba(255,45,85,0.45),
-    inset 0 0 10px rgba(255,255,255,0.25);
-}
-
-/* ------------------------------
-   Grid header
------------------------------- */
-.grid__header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px;
-  border-bottom: 1px solid var(--panel-border);
-  background: rgba(255,255,255,0.04);
-  font-weight: 700;
-}
-
-.sort__select {
-  padding: 8px 10px;
-  border-radius: 8px;
-  border: 1px solid var(--panel-border);
-  background: rgba(0,0,0,0.45);
-  color: var(--text);
-  outline: none;
-}
-
-/* ------------------------------
-   Cards grid
------------------------------- */
 .cards {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(3, 1fr); /* 3 posters per row */
   gap: var(--grid-gap);
   padding: 16px;
 }
 
-/* responsiveness */
-@media (max-width: 1200px) {
-  .cards { grid-template-columns: repeat(5, 1fr); }
-}
 @media (max-width: 992px) {
-  .layout { grid-template-columns: 1fr; }
-  .cards { grid-template-columns: repeat(4, 1fr); }
-}
-@media (max-width: 768px) {
-  .cards { grid-template-columns: repeat(3, 1fr); }
+  .cards { grid-template-columns: repeat(2, 1fr); } /* 2 per row on tablets */
 }
 @media (max-width: 560px) {
-  .cards { grid-template-columns: repeat(2, 1fr); }
-}
-@media (max-width: 380px) {
-  .cards { grid-template-columns: 1fr; }
+  .cards { grid-template-columns: 1fr; } /* stack on mobile */
 }
 
-/* ------------------------------
-   Spray-painted Card Style
-   - Stencil edges, overspray glow, wall-blended look
------------------------------- */
+
+
 .card {
   position: relative;
   display: flex;
   flex-direction: column;
   gap: 10px;
   width: 100%;
-  /* Aspect lock via poster image sizing */
   background: transparent;
   border-radius: 10px;
   overflow: visible;
   text-decoration: none;
   color: var(--text);
-
-  /* subtle lift to separate from wall */
-  transform: translateZ(0);
 }
-
-/* overspray glow */
 .card::before {
   content: "";
   position: absolute;
-  inset: -6px -6px -10px -6px;
+  inset: -6px;
   border-radius: 14px;
   background:
     radial-gradient(120px 90px at 20% 15%, var(--spray-soft), transparent 70%),
@@ -343,7 +150,6 @@ body::after {
   mix-blend-mode: screen;
 }
 
-/* shadowy spray ring */
 .card::after {
   content: "";
   position: absolute;
@@ -356,82 +162,25 @@ body::after {
   pointer-events: none;
   mix-blend-mode: multiply;
 }
-.card__title {
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: var(--text);
-  text-shadow:
-    1px 1px 0 rgba(0,0,0,0.8),
-    0 0 6px rgba(255,255,255,0.1);
-  mix-blend-mode: overlay;
-}
 
-
-/* Poster area — looks like stenciled to the wall */
 .card__poster {
   position: relative;
   border-radius: 8px;
   overflow: hidden;
-  /* stencil edge via inner shadow */
   box-shadow:
     0 0 0 2px var(--stencil-edge) inset,
     0 0 22px rgba(0,0,0,0.6) inset;
 }
 
-/* Paint drips & splatter */
-.card__poster::before {
-  content: "";
-  position: absolute;
-  left: 8%;
-  top: -10px;
-  width: 40px;
-  height: 180px;
-    background:
-    radial-gradient(4px 4px at 20% 10%, rgba(255,255,255,0.08), transparent 70%),
-    radial-gradient(3px 3px at 60% 30%, rgba(255,255,255,0.06), transparent 70%),
-    radial-gradient(2px 2px at 40% 80%, rgba(255,255,255,0.05), transparent 70%);
-  filter: blur(1px);
-  opacity: 0.7;
-  mix-blend-mode: screen;
-  pointer-events: none;
-
-}
-.card__poster::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(transparent, rgba(0,0,0,0.15)),
-    repeating-linear-gradient(90deg, rgba(0,0,0,0.05) 0 2px, transparent 2px 4px);
-  mix-blend-mode: multiply;
-  opacity: 0.2;
-  pointer-events: none;
-}
-
-
 .card__poster img {
   display: block;
   width: 100%;
-  height: auto;
   aspect-ratio: 2/3;
   object-fit: cover;
-
-  /* Make it look painted */
   filter: contrast(1.1) saturate(1.2) brightness(0.95);
   border-radius: 6px;
-
-  /* Rough stencil edge */
   box-shadow:
     0 0 0 2px rgba(0,0,0,0.5) inset,
     0 0 18px rgba(0,0,0,0.6) inset;
 }
-.card:hover::before {
-  opacity: 1;
-  filter: blur(12px);
-}
-.card:hover::after {
-  opacity: 0.9;
-}
-
 
