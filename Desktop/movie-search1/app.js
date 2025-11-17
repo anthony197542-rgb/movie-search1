@@ -1,132 +1,67 @@
-/* ==========================================================================
-   Futuristic Movie DB — Interactivity
-   Author: Anthony
-   Notes:
-   - Handles trailer modal
-   - Search, filter, and sort functionality
-   - Fetches movie data from OMDb API using API key
-   ========================================================================== */
+// movieGallery.js
 
-// ------------------------------
-// API Key (replace with your own)
-// ------------------------------
-const API_KEY = "c9f7240a"; // <-- put your OMDb key here
-const API_URL = "https://www.omdbapi.com/";
+const API_KEY = "your_api_key_here"; // Replace with your OMDb/TMDb key
+const searchInput = document.getElementById("searchInput");
+const gallery = document.getElementById("gallery");
 
-// ------------------------------
-// Trailer Modal
-// ------------------------------
-const trailerButtons = document.querySelectorAll('.btn-trailer');
-const trailerModal = document.getElementById('trailerModal');
-const trailerFrame = document.getElementById('trailerFrame');
-const trailerTitle = document.getElementById('trailerTitle');
-const trailerClose = document.getElementById('trailerClose');
+// Fetch movies from OMDb based on query
+async function searchMovies(query) {
+  const url = `https://www.omdbapi.com/?apikey=${API_KEY}&s=${encodeURIComponent(query)}`;
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
 
-trailerButtons.forEach(button => {
-  button.addEventListener('click', () => {
-    const trailerId = button.dataset.trailerId;
-    const title = button.dataset.title;
-
-    trailerTitle.textContent = title;
-    trailerFrame.src = `https://www.youtube.com/embed/${trailerId}?autoplay=1`;
-
-    trailerModal.style.display = 'block';
-  });
-});
-
-trailerClose.addEventListener('click', () => {
-  trailerModal.style.display = 'none';
-  trailerFrame.src = ''; // stop video
-});
-
-window.addEventListener('click', e => {
-  if (e.target === trailerModal) {
-    trailerModal.style.display = 'none';
-    trailerFrame.src = '';
-  }
-});
-
-// ------------------------------
-// Search Functionality
-// ------------------------------
-const searchInput = document.getElementById('search-input');
-const cards = document.querySelectorAll('.card');
-
-searchInput.addEventListener('input', () => {
-  const query = searchInput.value.toLowerCase();
-
-  cards.forEach(card => {
-    const title = card.querySelector('.card__title').textContent.toLowerCase();
-    const genre = card.dataset.genre.toLowerCase();
-    const year = card.dataset.year;
-
-    if (
-      title.includes(query) ||
-      genre.includes(query) ||
-      year.includes(query)
-    ) {
-      card.style.display = '';
+    if (data.Response === "True") {
+      renderGallery(data.Search);
     } else {
-      card.style.display = 'none';
+      gallery.innerHTML = `<p>No results found for "${query}".</p>`;
     }
+  } catch (error) {
+    console.error("Error fetching movies:", error);
+    gallery.innerHTML = `<p>Something went wrong. Please try again.</p>`;
+  }
+}
+
+// Render movie cards into the gallery
+function renderGallery(movies) {
+  gallery.innerHTML = ""; // Clear previous results
+
+  movies.forEach(movie => {
+    const card = document.createElement("div");
+    card.classList.add("movie-card");
+
+    card.innerHTML = `
+      <img src="${movie.Poster !== "N/A" ? movie.Poster : "placeholder.jpg"}" alt="${movie.Title}">
+      <h3>${movie.Title}</h3>
+      <p>${movie.Year}</p>
+      <button class="trailer-btn" data-title="${movie.Title}">Watch Trailer</button>
+    `;
+
+    gallery.appendChild(card);
   });
 
-  // Example: fetch from OMDb when searching
-  if (query.length > 2) {
-    fetch(`${API_URL}?apikey=${API_KEY}&s=${encodeURIComponent(query)}`)
-      .then(res => res.json())
-      .then(data => {
-        if (data.Search) {
-          console.log("API results:", data.Search);
-          // You could dynamically add cards here based on API results
-        }
-      })
-      .catch(err => console.error("API error:", err));
-  }
-});
+  // Attach trailer modal logic
+  attachTrailerEvents();
+}
 
-// ------------------------------
-// Genre Filter Chips
-// ------------------------------
-const genreChips = document.querySelectorAll('#genreChips .chip');
-
-genreChips.forEach(chip => {
-  chip.addEventListener('click', () => {
-    genreChips.forEach(c => c.classList.remove('chip--active'));
-    chip.classList.add('chip--active');
-
-    const genre = chip.dataset.genre;
-    cards.forEach(card => {
-      card.style.display =
-        genre === 'All' || card.dataset.genre === genre ? '' : 'none';
+// Example trailer modal logic (stubbed for now)
+function attachTrailerEvents() {
+  const buttons = document.querySelectorAll(".trailer-btn");
+  buttons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const title = btn.getAttribute("data-title");
+      alert(`Trailer modal would open for: ${title}`);
+      // Later: integrate YouTube/TMDb trailer fetch here
     });
   });
-});
+}
 
-// ------------------------------
-// Sorting
-// ------------------------------
-const sortSelect = document.getElementById('sortSelect');
-const cardsContainer = document.getElementById('cards');
-
-sortSelect.addEventListener('change', e => {
-  const sortBy = e.target.value;
-  const sortedCards = Array.from(cards).sort((a, b) => {
-    if (sortBy === 'year') {
-      return b.dataset.year - a.dataset.year;
+// Event listener for search bar
+searchInput.addEventListener("keyup", e => {
+  if (e.key === "Enter") {
+    const query = searchInput.value.trim();
+    if (query) {
+      searchMovies(query);
     }
-    if (sortBy === 'rating') {
-      return b.dataset.rating - a.dataset.rating;
-    }
-    if (sortBy === 'title') {
-      return a.querySelector('.card__title').textContent.localeCompare(
-        b.querySelector('.card__title').textContent
-      );
-    }
-    // Popularity fallback (keep original order)
-    return 0;
-  });
-
-  cardsContainer.innerHTML = '';
-  sortedCards.forEach(card => cardsContainer.appendChild(card));
+  }
 });
