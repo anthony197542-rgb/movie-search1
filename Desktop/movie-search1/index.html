@@ -8,24 +8,19 @@
   <script defer src="app.js"></script>
 </head>
 <body>
+
+  <!-- Header -->
   <header class="site-header">
     <div class="u-container site-header__top">
-      <div class="brand">
-        <div class="brand__logo"></div>
-        <div class="brand__name">Blinker</div>
+        <input type="text" id="search-input" placeholder="Search movies...">
+        <button class="header-btn">Sign In</button>
       </div>
-  <input id="search-input" type="text" placeholder="Search titles, people, genre">
-<div id="cards"></div>
 
-<!-- Trailer Modal -->
-<div class="modal">
-  <div class="modal-header">
-    <button class="modal-close">✖</button>
-  </div>
-  <div class="trailer-wrap"></div>
-</div>
-
+    
+          <button class="modal-close id=modalClose">✖</button>
     </div>
+
+  
     <nav class="u-container site-header__nav">
       <a class="nav__link nav__link--active" href="#">Home</a>
       <a class="nav__link" href="#">Top Rated</a>
@@ -35,7 +30,9 @@
     </nav>
   </header>
 
+
   <main class="u-container layout">
+ 
     <aside class="panel">
       <div class="filters__title">Filter</div>
       <div class="chip-list" id="genreChips">
@@ -44,241 +41,167 @@
         <div class="chip" data-genre="Drama">Drama</div>
         <div class="chip" data-genre="Sci‑Fi">Sci‑Fi</div>
         <div class="chip" data-genre="Comedy">Comedy</div>
+        <div class="chip" data-genre="Adventure">Adventure</div>
+        <div class="chip" data-genre="Horror">Horror</div>
       </div>
     </aside>
 
+  
     <section class="panel">
-      <div class="grid__header">
-        <div>Trending now</div>
-        <div>
-          Sort by:
-          <select class="sort__select" id="sortSelect">
-            <option value="popular">Popularity</option>
-            <option value="rating">Rating</option>
-            <option value="year">Year</option>
-            <option value="title">Title</option>
-          </select>
-        </div>
-      </div>
-
       <div class="cards" id="cards">
-        <!-- Neon Drift -->
+
+     
         <article class="card" data-genre="Sci‑Fi" data-year="2025" data-rating="8.6">
-          <div class="card__poster">
-            <img src="./Neon drift.jpg" alt="Neon Drift Poster">
-          </div>
+          <img src="./Neon drift.jpg" alt="Neon Drift Poster" class="card__poster">
           <div class="card__body">
             <div class="card__title">Neon Drift</div>
             <div class="card__meta">2025 • Sci‑Fi • ★★★★☆</div>
-            <button class="btn-trailer" 
-                    data-trailer-id="dQw4w9WgXcQ" 
-                    data-title="Neon Drift">Watch Trailer</button>
+            <button class="btn-trailer" data-trailer-id="dQw4w9WgXcQ" data-title="Neon Drift">Watch Trailer</button>
           </div>
         </article>
 
-        <!-- Fast and Furious -->
+    
         <article class="card" data-genre="Action" data-year="2001" data-rating="8.0">
-          <div class="card__poster">
-            <img src="./fast and furiuos.jpg" alt="Fast and Furious Poster">
-          </div>
+          <img src="./fast and furiuos.jpg" alt="Fast and Furious Poster" class="card__poster">
           <div class="card__body">
             <div class="card__title">Fast and Furious</div>
             <div class="card__meta">2001 • Action • ★★★★☆</div>
-            <button class="btn-trailer" 
-                    data-trailer-id="2TAOizOnNPo" 
-                    data-title="Fast and Furious">Watch Trailer</button>
+            <button class="btn-trailer" data-trailer-id="2TAOizOnNPo" data-title="Fast and Furious">Watch Trailer</button>
           </div>
         </article>
 
-        <!-- Inception -->
+    
         <article class="card" data-genre="Drama" data-year="2024" data-rating="7.9">
-          <div class="card__poster">
-            <img src="./Inception.jpg" alt="Inception Poster">
-          </div>
+          <img src="./Inception.jpg" alt="Inception Poster" class="card__poster">
           <div class="card__body">
             <div class="card__title">Inception</div>
             <div class="card__meta">2024 • Drama • ★★★★☆</div>
-            <button class="btn-trailer" 
-                    data-trailer-id="YoHD9XEInc0" 
-                    data-title="Inception">Watch Trailer</button>
+            <button class="btn-trailer" data-trailer-id="YoHD9XEInc0" data-title="Inception">Watch Trailer</button>
           </div>
         </article>
 
-        <!-- Troon -->
+   
         <article class="card" data-genre="Action" data-year="2022" data-rating="7.5">
-          <div class="card__poster">
-            <img src="./Tron.jpg" alt="Troon Poster">
-          </div>
+          <img src="./Tron.jpg" alt="Troon Poster" class="card__poster">
           <div class="card__body">
             <div class="card__title">Troon</div>
             <div class="card__meta">2022 • Action • ★★★★☆</div>
-            <button class="btn-trailer" 
-                    data-trailer-id="L9szn1QQfas" 
-                    data-title="Troon">Watch Trailer</button>
+            <button class="btn-trailer" data-trailer-id="L9szn1QQfas" data-title="Troon">Watch Trailer</button>
           </div>
         </article>
 
-        <!-- Blade Trilogy -->
+  
         <article class="card" data-genre="Action" data-year="2004" data-rating="7.2">
-          <div class="card__poster">
-            <img src="./Blade_Trilogy.jpg" alt="Blade Trilogy Poster">
-          </div>
+          <img src="./Blade_Trilogy.jpg" alt="Blade Trilogy Poster" class="card__poster">
           <div class="card__body">
             <div class="card__title">Blade Trilogy</div>
             <div class="card__meta">2004 • Action • ★★★★☆</div>
-            <button class="btn-trailer" 
-                    data-trailer-id="N0pJYTwZ1-U" 
-                    data-title="Blade Trilogy">Watch Trailer</button>
+            <button class="btn-trailer" data-trailer-id="N0pJYTwZ1-U" data-title="Blade Trilogy">Watch Trailer</button>
           </div>
         </article>
 
-        <!-- Warrior -->
-        <article class="card" data-genre="Sci‑Fi" data-year="2021" data-rating="8.1">
-          <div class="card__poster">
-            <img src="./Warrior.jpg" alt="Warrior Poster">
-          </div>
+     
+        <article class="card" data-genre="Action" data-year="2021" data-rating="8.1">
+          <img src="./Warrior.jpg" alt="Warrior Poster" class="card__poster">
           <div class="card__body">
             <div class="card__title">Warrior</div>
-            <div class="card__meta">2021 • Action-Drama ★★☆</div>
-            <button class="btn-trailer" 
-                    data-trailer-id="I3YjF2fZkU4" 
-                    data-title="Warrior">Watch Trailer</button>
+            <div class="card__meta">2021 • Action‑Drama • ★★☆</div>
+            <button class="btn-trailer" data-trailer-id="I3YjF2fZkU4" data-title="Warrior">Watch Trailer</button>
           </div>
         </article>
 
-        <!-- Veil -->
+      
         <article class="card" data-genre="Sci‑Fi" data-year="2021" data-rating="8.1">
-          <div class="card__poster">
-            <img src="./The Veil (2).jpg" alt="The Veil Poster">
-          </div>
+          <img src="./The Veil (2).jpg" alt="The Veil Poster" class="card__poster">
           <div class="card__body">
             <div class="card__title">Veil</div>
-            <div class="card__meta">2021 • Action-Drama ★★☆</div>
-            <button class="btn-trailer" 
-                    data-trailer-id="abcd1234" 
-                    data-title="Veil">Watch Trailer</button>
+            <div class="card__meta">2021 • Action‑Drama • ★★☆</div>
+            <button class="btn-trailer" data-trailer-id="abcd1234" data-title="Veil">Watch Trailer</button>
           </div>
         </article>
 
-        <!-- Matrix -->
+ 
         <article class="card" data-genre="Sci‑Fi" data-year="2021" data-rating="8.1">
-          <div class="card__poster">
-            <img src="./Matrix.avif" alt="The Matrix Poster">
-          </div>
+          <img src="./Matrix.avif" alt="The Matrix Poster" class="card__poster">
           <div class="card__body">
             <div class="card__title">Matrix</div>
-            <div class="card__meta">2021 • Action-Drama ★★☆</div>
-            <button class="btn-trailer" 
-                    data-trailer-id="m8e-FF8MsqU" 
-                    data-title="Matrix">Watch Trailer</button>
+            <div class="card__meta">2021 • Action‑Drama • ★★☆</div>
+            <button class="btn-trailer" data-trailer-id="m8e-FF8MsqU" data-title="Matrix">Watch Trailer</button>
           </div>
         </article>
-        <!-- Batman -->
-<article class="card" data-genre="Action" data-year="2008" data-rating="9.0">
-  <div class="card__poster">
-    <img src="./Batman.jpg" alt="Batman Poster">
-  </div>
-  <div class="card__body">
-    <div class="card__title">Batman</div>
-    <div class="card__meta">2008 • Action • ★★★★★</div>
-    <button class="btn-trailer" 
-            data-trailer-id="EXeTwQWrcwY" 
-            data-title="Batman">Watch Trailer</button>
-  </div>
-</article>
 
-<!-- Spider-Man -->
-<article class="card" data-genre="Action" data-year="2002" data-rating="8.0">
-  <div class="card__poster">
-    <img src="./Spiderman.jpg" alt="Spider-Man Poster">
-  </div>
-  <div class="card__body">
-    <div class="card__title">Spider-Man</div>
-    <div class="card__meta">2002 • Action • ★★★★☆</div>
-    <button class="btn-trailer" 
-            data-trailer-id="O7zvehDxttM" 
-            data-title="Spider-Man">Watch Trailer</button>
-  </div>
-</article>
-
-<!-- The Polar Express -->
-<article class="card" data-genre="Drama" data-year="2004" data-rating="7.5">
-  <div class="card__poster">
-    <img src="./Polar express.jpg" alt="The Polar Express Poster">
-  </div>
-  <div class="card__body">
-    <div class="card__title">The Polar Express</div>
-    <div class="card__meta">2004 • Drama • ★★★★☆</div>
-    <button class="btn-trailer" 
-            data-trailer-id="TQhRqtt5vC0" 
-            data-title="The Polar Express">Watch Trailer</button>
-  </div>
-</article>
-
-<!-- Friday the 13th -->
-<article class="card" data-genre="Horror" data-year="1980" data-rating="7.0">
-  <div class="card__poster">
-    <img src="./Friday.jpg" alt="Friday the 13th Poster">
-  </div>
-  <div class="card__body">
-    <div class="card__title">Friday the 13th</div>
-    <div class="card__meta">1980 • Horror • ★★★★☆</div>
-    <button class="btn-trailer" 
-            data-trailer-id="XU5R8z2Q0GE" 
-            data-title="Friday the 13th">Watch Trailer</button>
-  </div>
-</article>
-<!-- Gladiator -->
-<article class="card" data-genre="Drama" data-year="2000" data-rating="8.5">
-  <div class="card__poster">
-    <img src="./Gladiator.jpg" alt="Gladiator Poster">
-  </div>
-  <div class="card__body">
-    <div class="card__title">Gladiator</div>
-    <div class="card__meta">2000 • Drama • ★★★★☆</div>
-    <button class="btn-trailer" 
-            data-trailer-id="owK1qxDselE" 
-            data-title="Gladiator">Watch Trailer</button>
-  </div>
-</article>
-<!-- The Goonies -->
-<article class="card" data-genre="Adventure" data-year="1985" data-rating="7.8">
-  <div class="card__poster">
-    <img src="./Goonies.jpg" alt="The Goonies Poster">
-  </div>
-  <div class="card__body">
-    <div class="card__title">The Goonies</div>
-    <div class="card__meta">1985 • Adventure • ★★★★☆</div>
-    <button class="btn-trailer" 
-            data-trailer-id="hJ2j4oWdQtU" 
-            data-title="The Goonies">Watch Trailer</button>
-  </div>
-</article>
-<!-- The Muppets -->
-<article class="card" data-genre="Comedy" data-year="2011" data-rating="7.2">
-  <div class="card__poster">
-    <img src="./Muppets.jpg" alt="The Muppets Poster">
-  </div>
-  <div class="card__body">
-    <div class="card__title">The Muppets</div>
-    <div class="card__meta">2011 • Comedy • ★★★★☆</div>
-    <button class="btn-trailer" 
-            data-trailer-id="tgbNymZ7vqY" 
-            data-title="The Muppets">Watch Trailer</button>
-  </div>
-</article>
+ 
+        <article class="card" data-genre="Action" data-year="2008" data-rating="9.0">
+          <img src="./Batman.jpg" alt="Batman Poster" class="card__poster">
+          <div class="card__body">
+            <div class="card__title">Batman</div>
+            <div class="card__meta">2008 • Action • ★★★★★</div>
+            <button class="btn-trailer" data-trailer-id="EXeTwQWrcwY" data-title="Batman">Watch Trailer</button>
+          </div>
+        </article>
 
 
+        <article class="card" data-genre="Action" data-year="2002" data-rating="8.0">
+          <img src="./Spiderman.jpg" alt="Spider‑Man Poster" class="card__poster">
+          <div class="card__body">
+            <div class="card__title">Spider‑Man</div>
+            <div class="card__meta">2002 • Action • ★★★★☆</div>
+            <button class="btn-trailer" data-trailer-id="O7zvehDxttM" data-title="Spider‑Man">Watch Trailer</button>
+          </div>
+        </article>
 
-    
+        <article class="card" data-genre="Drama" data-year="2004" data-rating="7.5">
+          <img src="./Polar express.jpg" alt="The Polar Express Poster" class="card__poster">
+          <div class="card__body">
+            <div class="card__title">The Polar Express</div>
+            <div class="card__meta">2004 • Drama • ★★★★☆</div>
+            <button class="btn-trailer" data-trailer-id="TQhRqtt5vC0" data-title="The Polar Express">Watch Trailer</button>
+          </div>
+        </article>
+
+
+        <article class="card" data-genre="Horror" data-year="1980" data-rating="7.0">
+          <img src="./Friday.jpg" alt="Friday the 13th Poster" class="card__poster">
+          <div class="card__body">
+            <div class="card__title">Friday the 13th</div>
+            <div class="card__meta">1980 • Horror • ★★★★☆</div>
+            <button class="btn-trailer" data-trailer-id="XU5R8z2Q0GE" data-title="Friday the 13th">Watch Trailer</button>
+          </div>
+        </article>
+
+   
+        <article class="card" data-genre="Drama" data-year="2000" data-rating="8.5">
+          <img src="./Gladiator.jpg" alt="Gladiator Poster" class="card__poster">
+          <div class="card__body">
+            <div class="card__title">Gladiator</div>
+            <div class="card__meta">2000 • Drama • ★★★★☆</div>
+            <button class="btn-trailer" data-trailer-id="owK1qxDselE" data-title="Gladiator">Watch Trailer</button>
+          </div>
+        </article>
+
+  
+        <article class="card" data-genre="Adventure" data-year="1985" data-rating="7.8">
+          <img src="./Goonies.jpg" alt="The Goonies Poster" class="card__poster">
+          <div class="card__body">
+            <div class="card__title">The Goonies</div>
+            <div class="card__meta">1985 • Adventure • ★★★★☆</div>
+            <button class="btn-trailer" data-trailer-id="hJ2j4oWdQtU" data-title="The Goonies">Watch Trailer</button>
+          </div>
+        </article>
+
+     
+        <article class="card" data-genre="Comedy" data-year="2011" data-rating="7.2">
+          <img src="./Muppets.jpg" alt="The Muppets Poster" class="card__poster">
+          <div class="card__body">
+            <div class="card__title">The Muppets</div>
+            <div class="card__meta">2011 • Comedy • ★★★★☆</div>
+            <button class="btn-trailer" data-trailer-id="tgbNymZ7vqY" data-title="The Muppets">Watch Trailer</button>
+          </div>
+        </article>
+
       </div>
     </section>
   </main>
 
-
-        </iframe>
-      </div>
-    </div>
-  </div>
 </body>
 </html>
