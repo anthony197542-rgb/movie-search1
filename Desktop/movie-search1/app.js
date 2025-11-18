@@ -1,12 +1,15 @@
-// movieGallery.js
 
-const API_KEY = " c9f7240a"; // Replace with your OMDb/TMDb key
-const searchInput = document.getElementById("searchInput");
-const gallery = document.getElementById("gallery");
+// Replace with your own OMDb API key (get one at http://www.omdbapi.com/apikey.aspx)
+const API_KEY = "c9f7240a";
 
-// Fetch movies from OMDb based on query
+const searchInput = document.getElementById("search-input");
+const searchButton = document.getElementById("search-button"); // optional if you add a button
+const cardsContainer = document.getElementById("cards");
+
+// Fetch movies from OMDb
 async function searchMovies(query) {
-  const url = `https://www.omdbapi.com/?apikey=aspx?VERIFYKEY=69049292-f4df-4f20-9c02-dce257e19ade
+  const url = `https://www.omdbapi.com/?apikey=${c9f7240a}&s=${encodeURIComponent(query)}`;
+
   try {
     const response = await fetch(url);
     const data = await response.json();
@@ -14,54 +17,50 @@ async function searchMovies(query) {
     if (data.Response === "True") {
       renderGallery(data.Search);
     } else {
-      gallery.innerHTML = `<p>No results found for "${query}".</p>`;
+      cardsContainer.innerHTML = `<p>No results found for "${query}".</p>`;
     }
   } catch (error) {
     console.error("Error fetching movies:", error);
-    gallery.innerHTML = `<p>Something went wrong. Please try again.</p>`;
+    cardsContainer.innerHTML = `<p>Something went wrong. Please try again.</p>`;
   }
 }
 
-// Render movie cards into the gallery
+// Render movie cards
 function renderGallery(movies) {
-  gallery.innerHTML = ""; // Clear previous results
+  cardsContainer.innerHTML = ""; // clear old results
 
   movies.forEach(movie => {
-    const card = document.createElement("div");
-    card.classList.add("movie-card");
+    const card = document.createElement("article");
+    card.classList.add("card");
 
     card.innerHTML = `
-      <img src="${movie.Poster !== "N/A" ? movie.Poster : "placeholder.jpg"}" alt="${movie.Title}">
-      <h3>${movie.Title}</h3>
-      <p>${movie.Year}</p>
-      <button class="trailer-btn" data-title="${movie.Title}">Watch Trailer</button>
+      <div class="card__poster">
+        <img src="${movie.Poster !== "N/A" ? movie.Poster : "placeholder.jpg"}" alt="${movie.Title}">
+      </div>
+      <div class="card__body">
+        <div class="card__title">${movie.Title}</div>
+        <div class="card__meta">${movie.Year}</div>
+        <button class="btn-trailer" data-title="${movie.Title}">Watch Trailer</button>
+      </div>
     `;
 
-    gallery.appendChild(card);
-  });
-
-  // Attach trailer modal logic
-  attachTrailerEvents();
-}
-
-// Example trailer modal logic (stubbed for now)
-function attachTrailerEvents() {
-  const buttons = document.querySelectorAll(".trailer-btn");
-  buttons.forEach(btn => {
-    btn.addEventListener("click", () => {
-      const title = btn.getAttribute("data-title");
-      alert(`Trailer modal would open for: ${title}`);
-      // Later: integrate YouTube/TMDb trailer fetch here
-    });
+    cardsContainer.appendChild(card);
   });
 }
 
-// Event listener for search bar
+// Event listeners
 searchInput.addEventListener("keyup", e => {
   if (e.key === "Enter") {
     const query = searchInput.value.trim();
-    if (query) {
-      searchMovies(query);
-    }
+    if (query) searchMovies(query);
   }
 });
+
+// If you add a search button in HTML:
+// <button id="search-button">Search</button>
+if (searchButton) {
+  searchButton.addEventListener("click", () => {
+    const query = searchInput.value.trim();
+    if (query) searchMovies(query);
+  });
+}
